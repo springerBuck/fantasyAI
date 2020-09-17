@@ -168,7 +168,6 @@ def consistency_in_range(player1, player2):
     a = max(player1["consistency_overall"], player2["consistency_overall"])
     b = min(player1["consistency_overall"], player2["consistency_overall"])
 
-    print(a, b)
     if a > 0 and b > 0.0:
         ans = (a - b) * 100 / a
     else:
@@ -360,6 +359,17 @@ def get_player_cost(player_name):
     return 0
 
 
+def get_player_position(player_name):
+    """
+    Gets the player"s position.
+    """
+
+    for player in players:
+        if player["full_name"] == player_name:
+            return player["position"]
+    return 0
+
+
 def create_team(omit_player=None, iterations=variables.ITERATIONS, display=True):
     """
     Creates the final squad of 15 players and gives an estimated points at the end of the season.
@@ -440,21 +450,23 @@ def get_transfers():
 
         for player in best_team:
             if player["full_name"] not in main_players:
-                best_transfers.append(
-                    {
-                        "out": {
-                            "name": omit_player,
-                            "cost": get_player_cost(omit_player),
-                        },
-                        "in": {
-                            "name": player["full_name"],
-                            "cost": get_player_cost(player["full_name"]),
-                        },
-                        "points": points,
-                        "g/l": points - current_team_expected_points,
-                    }
-                )
-                break
+                if get_player_position(player["full_name"]) == get_player_position(omit_player):
+                    print(get_player_position(player["full_name"]), get_player_position(omit_player))
+                    best_transfers.append(
+                        {
+                            "out": {
+                                "name": omit_player,
+                                "cost": get_player_cost(omit_player),
+                            },
+                            "in": {
+                                "name": player["full_name"],
+                                "cost": get_player_cost(player["full_name"]),
+                            },
+                            "points": points,
+                            "g/l": points - current_team_expected_points,
+                        }
+                    )
+                    break
 
     best_transfers = sorted(best_transfers, key=lambda k: (-k["points"]))
     return best_transfers
