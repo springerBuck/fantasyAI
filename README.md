@@ -3,7 +3,7 @@
 [![Workflow Status](https://github.com/ravgeetdhillon/fantasyAI/workflows/Notifications/badge.svg)](https://github.com/ravgeetdhillon/fantasyAI/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ravgeetdhillon/fantasyAI/blob/master/LICENSE)
 
-AI for [my Fantasy Premier League team](https://fantasy.premierleague.com/entry/2087820/history).
+AI for [my Fantasy Premier League team](https://fantasy.premierleague.com/entry/440900/history).
 
 ![Fantasy AI Art Cover by Ravgeet Dhillon](assets/fantasy-ai.png)
 

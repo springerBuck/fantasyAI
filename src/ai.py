@@ -168,7 +168,10 @@ def consistency_in_range(player1, player2):
     a = max(player1["consistency_overall"], player2["consistency_overall"])
     b = min(player1["consistency_overall"], player2["consistency_overall"])
 
-    ans = (a - b) * 100 / a
+    if a == 0:
+        ans = (a - b) * 100 / a
+    else:
+        ans = 0
 
     if ans <= limit["consistency_limit"]:
         return [True, player1 if max(player1["consistency_overall"], player2["consistency_overall"]) == player1["consistency_overall"] else player2]

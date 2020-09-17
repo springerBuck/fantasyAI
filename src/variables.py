@@ -123,4 +123,4 @@ PASSWORD = os.environ.get("GMAIL_PASS")
 NOTIFY_BEFORE = 4
 
 # user's team id
-TEAM_ID = 2087820
+TEAM_ID = 440900
