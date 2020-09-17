@@ -116,9 +116,7 @@ def html_response(transfers, players):
     formation_list_html = ''
     for player in players:
         formation_list_html += f'''
-            <ul>
-                <li>{player['name']} - {player['position']}</li>
-            </tr>
+            <li>{player['name']} - {player['position']}</li>
         '''
 
     response = f'''
@@ -143,7 +141,8 @@ def html_response(transfers, players):
                 {html}
             </table>
             <br>
-            <h2>{formation_list_html}</h2>
+            <h2>Best Players for GW{get_gameweek()}</h2>
+            <ul>{formation_list_html}</ul>
             <br>
             <h2>Important Stats</h2>
             <p>Next <b>deadline</b> is <b>{get_deadline()}</b></p>
