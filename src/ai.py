@@ -464,6 +464,7 @@ def get_transfers():
                             },
                             "points": points,
                             "g/l": points - current_team_expected_points,
+                            "position": get_player_position(player["full_name"])
                         }
                     )
                     break

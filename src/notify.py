@@ -109,6 +109,7 @@ def html_response(transfers):
                 <td>{transfer['in']['name'].title()}<small>[£{transfer['in']['cost']}]</small></td>
                 <td>{transfer['points']}</td>
                 <td>{transfer['g/l']}</td>
+                <td>{transfer['position']}</td>
             </tr>
         '''
 
@@ -128,6 +129,7 @@ def html_response(transfers):
                     <th>In</th>
                     <th>Points</th>
                     <th>Gain/Loss</th>
+                    <th>Position</th>
                 </tr>
                 {html}
             </table>
