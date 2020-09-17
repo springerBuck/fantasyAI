@@ -119,7 +119,7 @@ def html_response(transfers):
             {style}
         </head>
         <body>
-            <p>Hi Ravgeet, </p>
+            <p>Hi Aaron, </p>
             <p>This is <b>Fantasy AI</b>. Hope you had a great last gameweek and ready to fire again this time. After running through the data, I have done the following analysis for gameweek {get_gameweek()}.</p>
             <h3>Potential Transfers</h3>
             <table>
