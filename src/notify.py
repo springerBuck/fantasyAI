@@ -61,7 +61,7 @@ def get_gameweek(gameweeks=gameweeks):
     return gameweek['id']
 
 
-def html_response(transfers):
+def html_response(transfers, players):
     '''
     Creates a HTML response to be sent through email.
     '''
@@ -113,6 +113,14 @@ def html_response(transfers):
             </tr>
         '''
 
+    formation_list_html = ''
+    for player in players:
+        formation_list_html += f'''
+            <ul>
+                <li>{player['name']} - {player['position']}</li>
+            </tr>
+        '''
+
     response = f'''
         <!DOCTYPE html>
         <html>
@@ -120,6 +128,7 @@ def html_response(transfers):
             {style}
         </head>
         <body>
+            <h1>Fantasy Predictions</h1>
             <p>Hi Aaron, </p>
             <p>This is <b>Fantasy AI</b>. Hope you had a great last gameweek and ready to fire again this time. After running through the data, I have done the following analysis for gameweek {get_gameweek()}.</p>
             <h3>Potential Transfers</h3>
@@ -134,7 +143,9 @@ def html_response(transfers):
                 {html}
             </table>
             <br>
-            <h3>Important Stats</h3>
+            <h2>{formation_list_html}</h2>
+            <br>
+            <h2>Important Stats</h2>
             <p>Next <b>deadline</b> is <b>{get_deadline()}</b></p>
             <br>
             <a href="https://fantasy.premierleague.com/entry/{variables.TEAM_ID}/event/{get_gameweek()-1}" class="btn">Manage your team</a>

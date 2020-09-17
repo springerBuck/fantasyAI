@@ -6,7 +6,6 @@ import json
 import variables
 import numpy as np
 
-
 # initialize the global variables
 next_event = get_next_gameweek_id()
 team = load_data("user_team.json", "data/original")
@@ -75,7 +74,7 @@ def get_estimated_points(team):
     for player in team:
         points += player["seasons"][0]["total_points"]
 
-    return CURRENT_POINTS + round(points * (38 - (next_event-1)) / (next_event-1))
+    return CURRENT_POINTS + round(points * (38 - (next_event - 1)) / (next_event - 1))
 
 
 def get_team_cost(team):
@@ -120,9 +119,11 @@ def value_in_range(player1, player2):
     ans = (a - b) * 100 / a
 
     if ans <= limit["final_value_limit"]:
-        return [True, player1 if max(player1["final_value"], player2["final_value"]) == player1["final_value"] else player2]
+        return [True,
+                player1 if max(player1["final_value"], player2["final_value"]) == player1["final_value"] else player2]
     else:
-        return [False, player1 if max(player1["final_value"], player2["final_value"]) == player1["final_value"] else player2]
+        return [False,
+                player1 if max(player1["final_value"], player2["final_value"]) == player1["final_value"] else player2]
 
 
 def budget_in_range(amount1, amount2):
@@ -155,9 +156,11 @@ def value_points_in_range(player1, player2):
     ans = (a - b) * 100 / a
 
     if ans <= limit["value_points_limit"]:
-        return [True, player1 if max(player1["value_points"], player2["value_points"]) == player1["value_points"] else player2]
+        return [True, player1 if max(player1["value_points"], player2["value_points"]) == player1[
+            "value_points"] else player2]
     else:
-        return [False, player1 if max(player1["value_points"], player2["value_points"]) == player1["value_points"] else player2]
+        return [False, player1 if max(player1["value_points"], player2["value_points"]) == player1[
+            "value_points"] else player2]
 
 
 def consistency_in_range(player1, player2):
@@ -174,9 +177,11 @@ def consistency_in_range(player1, player2):
         ans = 0
 
     if ans <= limit["consistency_limit"]:
-        return [True, player1 if max(player1["consistency_overall"], player2["consistency_overall"]) == player1["consistency_overall"] else player2]
+        return [True, player1 if max(player1["consistency_overall"], player2["consistency_overall"]) == player1[
+            "consistency_overall"] else player2]
     else:
-        return [False, player1 if max(player1["consistency_overall"], player2["consistency_overall"]) == player1["consistency_overall"] else player2]
+        return [False, player1 if max(player1["consistency_overall"], player2["consistency_overall"]) == player1[
+            "consistency_overall"] else player2]
 
 
 def player_with_easy_fixtures(player1, player2):
@@ -198,11 +203,13 @@ def get_cover(player_type, final_team, configuration, new_player=""):
     forward_cost = np.mean([player["seasons"][0]["now_cost"]
                             for player in players if player["position"] == "Forward" and player not in final_team])
     midfielder_cost = np.mean([player["seasons"][0]["now_cost"]
-                               for player in players if player["position"] == "Midfielder" and player not in final_team])
+                               for player in players if
+                               player["position"] == "Midfielder" and player not in final_team])
     defender_cost = np.mean([player["seasons"][0]["now_cost"]
                              for player in players if player["position"] == "Defender" and player not in final_team])
     goalkeeper_cost = np.mean([player["seasons"][0]["now_cost"]
-                               for player in players if player["position"] == "Goalkeeper" and player not in final_team])
+                               for player in players if
+                               player["position"] == "Goalkeeper" and player not in final_team])
 
     cover = 0
     for position in configuration:
@@ -256,8 +263,10 @@ def select_player_from(position, final_team, configuration, budget, team_players
             b = budget - position[i]["seasons"][0]["now_cost"]
 
             if budget_in_range(cover, budget - position[i]["seasons"][0]["now_cost"]):
-                if position[i] not in final_team and budget > position[i]["seasons"][0]["now_cost"] and configuration[position[i]["position"]]["left"] > 0 and team_players_selected[position[i]["team_name"]] < 3 and position[i]["status"] == "a" and position[i] not in donot_consider and position[i] not in selected_players:
-
+                if position[i] not in final_team and budget > position[i]["seasons"][0]["now_cost"] and \
+                        configuration[position[i]["position"]]["left"] > 0 and team_players_selected[
+                    position[i]["team_name"]] < 3 and position[i]["status"] == "a" and position[
+                    i] not in donot_consider and position[i] not in selected_players:
                     selected_players.append(position[i])
 
             else:
@@ -299,7 +308,6 @@ def select_player_from(position, final_team, configuration, budget, team_players
 # load the all the players for team selection
 players = load_data("final_players_sorted.json", "data")
 
-
 # get range limits for each kind of variable
 limit = {
     "cost_limit": np.var([player["seasons"][0]["now_cost"] for player in players]),
@@ -308,7 +316,6 @@ limit = {
     "value_points_limit": np.var([player["value_points"] for player in players]) * 100,
     "variance_points_limit": np.var([player["fer"] for player in players]) * 100,
 }
-
 
 # select players according to their playing positions
 goalkeepers = [
@@ -343,9 +350,10 @@ def get_best_playing_11_points(final_team):
         points = get_estimated_points(playing_team)
 
         if points > max_points:
+            final_playing_team = playing_team
             max_points = points
 
-    return max_points
+    return (final_playing_team, max_points)
 
 
 def get_player_cost(player_name):
@@ -375,8 +383,8 @@ def create_team(omit_player=None, iterations=variables.ITERATIONS, display=True)
     Creates the final squad of 15 players and gives an estimated points at the end of the season.
     """
 
-    positions = ["Forward"]*3 + ["Midfielder"] * \
-        5 + ["Defender"]*5 + ["Goalkeeper"]*2
+    positions = ["Forward"] * 3 + ["Midfielder"] * \
+                5 + ["Defender"] * 5 + ["Goalkeeper"] * 2
 
     main_players = get_main_players()
 
@@ -420,13 +428,30 @@ def create_team(omit_player=None, iterations=variables.ITERATIONS, display=True)
             team_players_selected[player["team_name"]] += 1
             final_team.append(player)
 
-        points = get_best_playing_11_points(final_team)
+        _, points = get_best_playing_11_points(final_team)
 
         if points > max_points:
             max_points = points
             best_team = final_team
 
     return (best_team, max_points)
+
+
+def replace_players(team, new_player, old_player_name):
+    final_team = [{
+        "name": new_player["full_name"],
+        "position": get_player_position(new_player["full_name"])
+    }]
+
+    for p in team:
+        print(p, old_player_name)
+        if p != old_player_name:
+            final_team.append({
+                "name": p,
+                "position": get_player_position(p)
+            })
+
+    return final_team
 
 
 def get_transfers():
@@ -440,6 +465,10 @@ def get_transfers():
     max_points = -1
     best_transfers = []
 
+    best_single_transfer_player_in = None
+    best_single_transfer_player_out = None
+    best_single_transfer_value = - 500
+
     for y in range(len(main_players)):
         omit_player = main_players[y]
         best_team, points = create_team(
@@ -451,7 +480,6 @@ def get_transfers():
         for player in best_team:
             if player["full_name"] not in main_players:
                 if get_player_position(player["full_name"]) == get_player_position(omit_player):
-                    print(get_player_position(player["full_name"]), get_player_position(omit_player))
                     best_transfers.append(
                         {
                             "out": {
@@ -467,10 +495,17 @@ def get_transfers():
                             "position": get_player_position(player["full_name"])
                         }
                     )
+                    if points - current_team_expected_points > best_single_transfer_value:
+                        best_single_transfer_player_in = player
+                        best_single_transfer_player_out = omit_player
+                        best_single_transfer_value = points - current_team_expected_points
                     break
 
     best_transfers = sorted(best_transfers, key=lambda k: (-k["points"]))
-    return best_transfers
+    new_best_team = replace_players(main_players, best_single_transfer_player_in, best_single_transfer_player_out)
+    best_11, _ = get_best_playing_11_points(best_team)
+
+    return (new_best_team, best_transfers)
 
 
 def main():
@@ -479,7 +514,7 @@ def main():
     """
 
     # get transfers
-    transfers = get_transfers()
+    best_11, transfers = get_transfers()
     print(f"Evaluated {len(transfers)} transfers.\n")
 
     # write a CLI response
@@ -489,8 +524,10 @@ def main():
         print(transfer['g/l'])
         print('-------')
 
+    print(best_11)
+
     # generate response to be sent
-    response = html_response(transfers)
+    response = html_response(transfers, best_11)
 
     # send email
     send_email(response)
