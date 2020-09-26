@@ -15,7 +15,7 @@ on:
 jobs:
   fetchDataAndRunAI:
     env:
-      TEAM_ID: 440900
+      TEAM_ID: 428981
       REMOTE_BRANCH: master
       GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
       GMAIL_RECEIVER: ${{ secrets.GMAIL_RECEIVER_CONNOR }}
