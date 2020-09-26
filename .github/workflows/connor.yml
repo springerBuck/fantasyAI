@@ -1,4 +1,4 @@
-name: Notifications
+name: Notifications_Connor
 
 on:
   schedule:
